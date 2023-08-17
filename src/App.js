@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Conatainer = styled("div")`
+const Container = styled("div")`
   .app-header {
     background-color: aqua;
     display: flex;
@@ -31,11 +31,11 @@ const Conatainer = styled("div")`
 
 function App() {
   return (
-    <Conatainer>
+    <Container>
       <header className="app-header">header</header>
       <div className="app-content">content</div>
       <div className="app-footer">Footer</div>
-    </Conatainer>
+    </Container>
   );
 }
 
