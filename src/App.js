@@ -1,41 +1,20 @@
-import styled from "styled-components";
-
-const Container = styled("div")`
-  .app-header {
-    background-color: aqua;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 80px;
-  }
-
-  .app-content {
-    background-color: bisque;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 500px;
-  }
-
-  .app-footer {
-    background-color: blueviolet;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100px;
-  }
-`;
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Layout from "./components/Layout";
+import Login from "./page/login";
+import BooksManagement from "./page/booksManagement";
+import HomePage from "./page/homepage";
 
 function App() {
   return (
-    <Container>
-      <header className="app-header">header</header>
-      <div className="app-content">content</div>
-      <div className="app-footer">Footer</div>
-    </Container>
+    <BrowserRouter>
+      <Layout>
+      <Switch>
+        <Route path="/sign-in" component={Login} />
+        <Route path="/books-management" component={BooksManagement} />
+        <Route path="/" component={HomePage} exact />
+      </Switch>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
