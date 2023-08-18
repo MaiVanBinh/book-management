@@ -15,6 +15,13 @@ const ModalContainer = styled("div")`
     box-sizing: border-box;
   }
 
+  .invalid {
+    background-color: ivory;
+    border: none;
+    outline: 2px solid red;
+    border-radius: 5px;
+  }
+
   /* Set a style for all buttons */
   button {
     background-color: #04aa6d;
@@ -187,7 +194,7 @@ const EditModal = ({ book, setOpen, isActive }) => {
 
   const checkBookDataValid = (event) => {
     const { name, value } = event.target;
-    if (value && value === "") {
+    if (value === "") {
       const newBookData = {
         ...bookData,
         [name]: {
@@ -198,6 +205,19 @@ const EditModal = ({ book, setOpen, isActive }) => {
       setBookData(newBookData);
     }
   };
+
+  const onFocusHandler = (event) => {
+    const { name } = event.target;
+    const newBookData = {
+      ...bookData,
+      [name]: {
+        ...bookData[name],
+        isError: false,
+      },
+    };
+    setBookData(newBookData);
+  };
+
 
   return (
     <ModalContainer>
@@ -221,7 +241,9 @@ const EditModal = ({ book, setOpen, isActive }) => {
               value={bookData.title.value}
               error={false}
               onChange={onChangeInputHandler}
-
+              className={bookData.title.isError && "invalid"}
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
             />
 
             <label for="author">
@@ -233,7 +255,9 @@ const EditModal = ({ book, setOpen, isActive }) => {
               name="author"
               onChange={onChangeInputHandler}
               value={bookData.author.value}
-
+              className={bookData.author.isError && "invalid"}
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
               // required
               // onInvalid={(e) =>
               //   e.target.setCustomValidity('Nhập tác giả')
@@ -249,7 +273,9 @@ const EditModal = ({ book, setOpen, isActive }) => {
               type="number"
               onChange={onChangeInputHandler}
               value={bookData.parts.value}
-
+              className={bookData.parts.isError && "invalid"}
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
               // required
               // onInvalid={(e) =>
               //   e.target.setCustomValidity('Nhập số chương')
@@ -265,7 +291,9 @@ const EditModal = ({ book, setOpen, isActive }) => {
               name="category"
               onChange={onChangeInputHandler}
               value={bookData.category.value}
-
+              className={bookData.category.isError && "invalid"}
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
               // required
               // onInvalid={(e) =>
               //   e.target.setCustomValidity('Nhập thể loại')

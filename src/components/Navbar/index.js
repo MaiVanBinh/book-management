@@ -90,7 +90,8 @@ const Container = styled("div")`
       right: 2rem;
     }
 
-    nav a {
+    nav a,
+    .logout-btn {
       font-size: 1.5rem;
     }
   }
@@ -110,10 +111,10 @@ function Navbar() {
       <header>
         <h3>{`S3LAP${userData?.username ? ` - username: ${userData?.username}` : ''}`}</h3>
         <nav ref={navRef}>
-          <Link to="/">Trang chủ</Link>
+          <Link to="/" onClick={showNavbar}>Trang chủ</Link>
 
-          {isAuth && <Link to="/books-management">Quản lý sách</Link>}
-          {!isAuth && <Link to="/sign-in">Đăng Nhập </Link>}
+          {isAuth && <Link to="/books-management" onClick={showNavbar}>Quản lý sách</Link>}
+          {!isAuth && <Link to="/sign-in" onClick={showNavbar}>Đăng Nhập </Link>}
 
           {isAuth && <button className="logout-btn" onClick={logout}>Đăng xuất</button>}
           <button className="nav-btn nav-close-btn" onClick={showNavbar}>

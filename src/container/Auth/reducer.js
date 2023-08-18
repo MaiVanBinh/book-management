@@ -6,7 +6,6 @@ const initialState = {
 };
 
 export default function app(state = initialState, action) {
-  console.log('action', action)
   switch (action.type) {
     case AUTH.AUTH_LOGIN_SUCCESS:
       return {

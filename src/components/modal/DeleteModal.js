@@ -141,10 +141,6 @@ const DeleteModal = ({ setOpen, isActive, book }) => {
     }
   };
 
-  const handlerSubmit = (event) => {
-    console.log('data');
-  };
-
   const handlerDeleteSubmit = () => {
     dispatch(deleteBook(book?.id))
     setOpen(false);

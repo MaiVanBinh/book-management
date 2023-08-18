@@ -17,7 +17,6 @@ function* handlerCreateBook({ data }) {
   try {
     yield call(createBookApi, data);
     const res2 = yield call(getListBookApi);
-    console.log('res2res2', res2)
     yield put(getBookSuccess(res2));
   } catch (err) {
     console.log("err handlerCreateBook", err);

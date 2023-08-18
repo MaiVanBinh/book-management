@@ -21,7 +21,6 @@ export default function app(state = initialState, action) {
         pages: action?.data?.pages
       };
     case BOOK.CHANGE_PAGE: {
-      console.log(action)
       return {
         ...state,
         pages: {

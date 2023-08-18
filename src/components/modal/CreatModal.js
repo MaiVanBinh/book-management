@@ -15,6 +15,13 @@ const ModalContainer = styled("div")`
     box-sizing: border-box;
   }
 
+  .invalid {
+    background-color: ivory;
+    border: none;
+    outline: 2px solid red;
+    border-radius: 5px;
+  }
+
   /* Set a style for all buttons */
   button {
     background-color: #04aa6d;
@@ -167,7 +174,6 @@ const CreateModal = ({ isOpen, setOpen, isActive }) => {
       parts: bookData.parts.value,
       category: bookData.category.value,
     };
-    console.log(data);
     if (data.title !== "" && data.author !== "" && data.parts && data.author) {
       dispatch(createBook(data));
       setOpen(false);
@@ -188,7 +194,8 @@ const CreateModal = ({ isOpen, setOpen, isActive }) => {
 
   const checkBookDataValid = (event) => {
     const { name, value } = event.target;
-    if (value && value === "") {
+
+    if (value === "") {
       const newBookData = {
         ...bookData,
         [name]: {
@@ -198,6 +205,18 @@ const CreateModal = ({ isOpen, setOpen, isActive }) => {
       };
       setBookData(newBookData);
     }
+  };
+
+  const onFocusHandler = (event) => {
+    const { name } = event.target;
+    const newBookData = {
+      ...bookData,
+      [name]: {
+        ...bookData[name],
+        isError: false,
+      },
+    };
+    setBookData(newBookData);
   };
 
   return (
@@ -214,57 +233,57 @@ const CreateModal = ({ isOpen, setOpen, isActive }) => {
               <b>Tiêu đề</b>
             </label>
             <input
+              className={bookData.title.isError && "invalid"}
               type="text"
               placeholder="Nhập tiêu đề"
               name="title"
-              // required
-              // onInvalid={(e)=>{e.target.setCustomValidity("error msg:  Please enter your first name")}}
+              required
               value={bookData.title.value}
               error={false}
               onChange={onChangeInputHandler}
-
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
             />
 
             <label for="author">
               <b>Tác giả</b>
             </label>
             <input
+              className={bookData.author.isError && "invalid"}
               type="text"
               placeholder="Nhập tên tác giả"
               name="author"
               onChange={onChangeInputHandler}
-              // required
-              // onInvalid={(e) =>
-              //   e.target.setCustomValidity('Nhập tác giả')
-              // }
+              required
+              error={true}
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
             />
 
             <label for="parts">
               <b>Số chương</b>
             </label>
             <input
+              className={bookData.parts.isError && "invalid"}
               placeholder="Nhập tên số chương"
               name="parts"
               type="number"
               onChange={onChangeInputHandler}
-              // required
-              // onInvalid={(e) =>
-              //   e.target.setCustomValidity('Nhập số chương')
-              // }
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
             />
 
             <label for="category">
               <b>Thể loại</b>
             </label>
             <input
+              className={bookData.category.isError && "invalid"}
               type="number"
               placeholder="Nhập tên thể loại"
               name="category"
               onChange={onChangeInputHandler}
-              // required
-              // onInvalid={(e) =>
-              //   e.target.setCustomValidity('Nhập thể loại')
-              // }
+              onBlur={checkBookDataValid}
+              onFocus={onFocusHandler}
             />
             <button onClick={handlerSubmit}>Tạo mới</button>
           </div>
