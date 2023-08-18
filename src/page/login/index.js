@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { styled } from "styled-components";
+import { login } from "../../container/Auth/actions";
+import { useAppSelector } from "../../container/store";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Container = styled("div")`
   input[type="text"],
@@ -75,7 +79,11 @@ const Container = styled("div")`
 `;
 
 const Login = () => {
-  const [authData, setAuthData] = useState({
+  const dispatch = useDispatch();
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const history = useHistory();
+
+  const [authData, _] = useState({
     username: {
       value: "",
       isError: false,
@@ -96,54 +104,21 @@ const Login = () => {
     const password = data.get("password");
     if (username !== "" && password !== "") {
       localStorage.setItem('token', 'token_value');
-      window.location.href = "/"
-
-      // dispatch(
-      //   login({
-      //     username: data.get("username"),
-      //     password: data.get("password"),
-      //   })
-      // );
+      localStorage.setItem('username', username);
+      dispatch(
+        login({
+          username: data.get("username"),
+          password: data.get("password"),
+        })
+      );
     }
   };
 
-  const onChangeInputHandler = (event) => {
-    const { name, value } = event.target;
-    const newAuthData = {
-      ...authData,
-      [name]: {
-        ...authData[name],
-        value: value,
-      },
-    };
-    setAuthData(newAuthData);
-  };
-
-  const checkAuthDataValid = (event) => {
-    const { name, value } = event.target;
-    if (value === "") {
-      const newAuthData = {
-        ...authData,
-        [name]: {
-          ...authData[name],
-          isError: true,
-        },
-      };
-      setAuthData(newAuthData);
+  useEffect(() => {
+    if (isAuth) {
+      history.push("/");
     }
-  };
-
-  const onFocusHandler = (event) => {
-    const { name } = event.target;
-    const newAuthData = {
-      ...authData,
-      [name]: {
-        ...authData[name],
-        isError: false,
-      },
-    };
-    setAuthData(newAuthData);
-  };
+  }, [isAuth, history]);
 
   return (
     <Container className="modal">
@@ -162,7 +137,7 @@ const Login = () => {
             name="username"
             required
             onInvalid={(e) =>
-              e.target.setCustomValidity("Tên đăng nhập cần ít nhất 1 ký tự")
+              e.target.setCustomValidity(authData.username.errMessage)
             }
             onInput={(F) => F.target.setCustomValidity("")}
           />
@@ -176,7 +151,7 @@ const Login = () => {
             name="password"
             required
             onInvalid={(e) =>
-              e.target.setCustomValidity("Mật khẩu cần ít nhất 1 ký tự")
+              e.target.setCustomValidity(authData.password.errMessage)
             }
             onInput={(F) => F.target.setCustomValidity("")}
           />

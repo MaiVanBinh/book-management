@@ -4,19 +4,24 @@ import Login from "./page/login";
 import BooksManagement from "./page/booksManagement";
 import HomePage from "./page/homepage";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "./container/store";
+import { useDispatch } from "react-redux";
+import { setAuthData } from "./container/Auth/actions";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuth(true);
+    const username = localStorage.getItem("username");
+    if (token && username) {
+      dispatch(setAuthData({ username, token }))
     }
   }, []);
   return (
     <BrowserRouter>
-      <Layout isAuth={isAuth}>
+      <Layout>
         <Switch>
           <Route path="/sign-in" component={Login} />
           <PrivateRoute

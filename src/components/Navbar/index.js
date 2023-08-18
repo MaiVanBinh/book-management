@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 import { logout } from "../../page/utils/logout";
+import { useAppSelector } from "../../container/store";
 
 const Container = styled("div")`
   header {
@@ -95,8 +96,9 @@ const Container = styled("div")`
   }
 `;
 
-function Navbar({ isAuth }) {
+function Navbar() {
   const navRef = useRef();
+  const { isAuth, data: userData } = useAppSelector((state) => state.authReducer);
 
   const showNavbar = () => {
     navRef.current.classList.toggle("responsive_nav");
@@ -106,7 +108,7 @@ function Navbar({ isAuth }) {
   return (
     <Container>
       <header>
-        <h3>S3LAP</h3>
+        <h3>{`S3LAP${userData?.username ? ` - username: ${userData?.username}` : ''}`}</h3>
         <nav ref={navRef}>
           <Link to="/">Trang chủ</Link>
 
