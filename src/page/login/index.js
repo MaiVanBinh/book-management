@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { styled } from "styled-components";
 
 const Container = styled("div")`
@@ -74,9 +75,83 @@ const Container = styled("div")`
 `;
 
 const Login = () => {
+  const [authData, setAuthData] = useState({
+    username: {
+      value: "",
+      isError: false,
+      errMessage: "Tên đăng nhập cần ít nhất 1 ký tự",
+    },
+    password: {
+      value: "",
+      isError: false,
+      errMessage: "Mật khẩu cần ít nhất 1 ký tự",
+    },
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    const username = data.get("username");
+    const password = data.get("password");
+    if (username !== "" && password !== "") {
+      localStorage.setItem('token', 'token_value');
+      window.location.href = "/"
+
+      // dispatch(
+      //   login({
+      //     username: data.get("username"),
+      //     password: data.get("password"),
+      //   })
+      // );
+    }
+  };
+
+  const onChangeInputHandler = (event) => {
+    const { name, value } = event.target;
+    const newAuthData = {
+      ...authData,
+      [name]: {
+        ...authData[name],
+        value: value,
+      },
+    };
+    setAuthData(newAuthData);
+  };
+
+  const checkAuthDataValid = (event) => {
+    const { name, value } = event.target;
+    if (value === "") {
+      const newAuthData = {
+        ...authData,
+        [name]: {
+          ...authData[name],
+          isError: true,
+        },
+      };
+      setAuthData(newAuthData);
+    }
+  };
+
+  const onFocusHandler = (event) => {
+    const { name } = event.target;
+    const newAuthData = {
+      ...authData,
+      [name]: {
+        ...authData[name],
+        isError: false,
+      },
+    };
+    setAuthData(newAuthData);
+  };
+
   return (
     <Container className="modal">
-      <form className="modal-content animate" method="post">
+      <form
+        className="modal-content animate"
+        method="post"
+        onSubmit={handleSubmit}
+      >
         <div className="container">
           <label htmlFor="username">
             <b>Tên đăng nhập</b>
@@ -86,6 +161,10 @@ const Login = () => {
             placeholder="Nhập tên đăng nhập"
             name="username"
             required
+            onInvalid={(e) =>
+              e.target.setCustomValidity("Tên đăng nhập cần ít nhất 1 ký tự")
+            }
+            onInput={(F) => F.target.setCustomValidity("")}
           />
 
           <label htmlFor="password">
@@ -96,6 +175,10 @@ const Login = () => {
             placeholder="Nhập mật khẩu"
             name="password"
             required
+            onInvalid={(e) =>
+              e.target.setCustomValidity("Mật khẩu cần ít nhất 1 ký tự")
+            }
+            onInput={(F) => F.target.setCustomValidity("")}
           />
 
           <button type="submit">Đăng nhập</button>
