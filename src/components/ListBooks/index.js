@@ -7,6 +7,7 @@ import Pagination from "../Pagination";
 import CreateModal from "../modal/CreatModal";
 import { useDispatch, useSelector } from "react-redux";
 import { changePage } from "../../container/Book/actions";
+import DeleteModal from "../modal/DeleteModal";
 
 const ListBookContainer = styled("div")`
   .block-header {
@@ -46,6 +47,9 @@ const ListBookContainer = styled("div")`
 
 const ListBooks = () => {
   const [openCreate, setOpenCreate] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [currentBook, setCurrentBook] = useState({})
+
   const { books, pages } = useSelector((state) => state.bookReducer);
   const dispatch = useDispatch();
 
@@ -53,6 +57,10 @@ const ListBooks = () => {
     dispatch(changePage(value));
   };
 
+  const deleteBookHandler = (item) => {
+    setCurrentBook(item)
+    setOpenDelete(true)
+  }
   return (
     <ListBookContainer>
       <div class="block-header">
@@ -65,7 +73,7 @@ const ListBooks = () => {
       </div>
       <div className="list-book">
       {books.map((item) => (
-        <Book data={item} />
+        <Book data={item} onDelete={deleteBookHandler} />
       ))}
       </div>
       
@@ -79,6 +87,7 @@ const ListBooks = () => {
         />
       </div>
       {openCreate && <CreateModal isActive={openCreate} setOpen={setOpenCreate} />}
+      <DeleteModal isActive={openDelete} setOpen={value => setOpenDelete(value)} book={currentBook} />
     </ListBookContainer>
   );
 };

@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 import { timeSince } from "../../../page/utils/timeSince";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-const BookContainer = styled('div')`
+const BookContainer = styled("div")`
   margin-bottom: 20px;
   margin-top: 0 !important;
 
@@ -11,7 +12,7 @@ const BookContainer = styled('div')`
   // display: flex;
   // justify-content: space-between;
   display: grid;
-  grid-template-columns: 100px auto 100px 100px;
+  grid-template-columns: 100px auto 100px 150px 100px;
   gap: 10px;
   padding: 10px;
 
@@ -22,6 +23,9 @@ const BookContainer = styled('div')`
   }
   .grid-item {
     padding 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .img-box {
@@ -80,10 +84,22 @@ const BookContainer = styled('div')`
   .text-right {
     text-align: right;
   }
+
+  .btn {
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    // color: var(--textColor);
+    // visibility: hidden;
+    // opacity: 0;
+    font-size: 1.8rem;
+  }
 `;
 
 const Book = (props) => {
-  const { data, click } = props;
+  const { data, onDelete } = props;
   const thumb =
     "https://truyenaudiocv.org/uploads/manga/nguoi-tai-dau-pha-viet-nhat-ky-nu-chinh-toan-bo-mong/cover/cover_thumb.jpg";
   return (
@@ -96,13 +112,39 @@ const Book = (props) => {
       <div className="grid-item">
         <h2 className="book-title">{data.title}</h2>
         <p className="author-text">Tác giả: {data.author}</p>
-
       </div>
       <div className="grid-item">
         <p className="part-number">{data.parts} tập</p>
       </div>
-      <div assName="grid-item text-right">
+      <div className="grid-item text-right">
         <p className="time">{timeSince(data.updated_at)}</p>
+      </div>
+      <div className="text-right" style={{
+        display: 'flex',
+        justifyContent: "space-around"
+      }}>
+        <button
+          className="btn"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onClick={() => onDelete(data)}
+        >
+          <AiFillDelete />
+        </button>
+        {/* <button
+          className="btn"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onClick={() => console.log('edit')}
+        >
+          <AiFillEdit />
+        </button> */}
       </div>
     </BookContainer>
   );
