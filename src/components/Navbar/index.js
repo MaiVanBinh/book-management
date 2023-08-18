@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useHistory } from "react-router-dom";
 
 import styled from "styled-components";
+import { logout } from "../../page/utils/logout";
 
 const Container = styled("div")`
   header {
@@ -15,12 +16,24 @@ const Container = styled("div")`
     color: var(--textColor);
   }
 
-  nav a {
+  nav a,
+  .logout-btn {
     margin: 0 1rem;
     color: var(--textColor);
     text-decoration: none;
+    font-size: 16px;
   }
 
+
+  .logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--secondaryColor);
+    }
+  }
   nav a:hover {
     color: var(--secondaryColor);
   }
@@ -82,12 +95,13 @@ const Container = styled("div")`
   }
 `;
 
-function Navbar() {
+function Navbar({ isAuth }) {
   const navRef = useRef();
 
   const showNavbar = () => {
     navRef.current.classList.toggle("responsive_nav");
   };
+
 
   return (
     <Container>
@@ -96,8 +110,10 @@ function Navbar() {
         <nav ref={navRef}>
           <Link to="/">Trang chủ</Link>
 
-          <Link to="/books-management">Quản lý sách</Link>
-          <Link to="/sign-in">Đăng Nhập </Link>
+          {isAuth && <Link to="/books-management">Quản lý sách</Link>}
+          {!isAuth && <Link to="/sign-in">Đăng Nhập </Link>}
+
+          {isAuth && <button className="logout-btn" onClick={logout}>Đăng xuất</button>}
           <button className="nav-btn nav-close-btn" onClick={showNavbar}>
             <FaTimes />
           </button>
