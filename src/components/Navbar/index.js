@@ -3,8 +3,8 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
-import { logout } from "../../page/utils/logout";
 import { useAppSelector } from "../../container/store";
+import { logout } from "../../page/utils/common";
 
 const Container = styled("div")`
   header {

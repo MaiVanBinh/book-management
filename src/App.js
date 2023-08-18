@@ -7,14 +7,15 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "./container/store";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "./container/Auth/actions";
+import Cookies from "js-cookie"
 
 function App() {
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = Cookies.get("token");
+    const username = Cookies.get("username");
     if (token && username) {
       dispatch(setAuthData({ username, token }))
     }

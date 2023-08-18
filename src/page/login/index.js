@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import { login } from "../../container/Auth/actions";
 import { useAppSelector } from "../../container/store";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Cookies from "js-cookie"
 
 const Container = styled("div")`
   input[type="text"],
@@ -103,8 +104,7 @@ const Login = () => {
     const username = data.get("username");
     const password = data.get("password");
     if (username !== "" && password !== "") {
-      localStorage.setItem('token', 'token_value');
-      localStorage.setItem('username', username);
+      Cookies.set('username', username);
       dispatch(
         login({
           username: data.get("username"),

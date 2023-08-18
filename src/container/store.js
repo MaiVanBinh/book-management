@@ -1,5 +1,5 @@
-import {createStore, applyMiddleware, Store, compose} from 'redux';
-import createSagaMiddleware, {Task} from 'redux-saga';
+import {createStore, applyMiddleware, compose} from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import reducer from './reducer';
 import rootSaga from './saga';
 import { useSelector } from 'react-redux';
