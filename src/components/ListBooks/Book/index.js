@@ -8,9 +8,17 @@ const BookContainer = styled('div')`
   margin-bottom: 20px;
   margin-top: 0 !important;
 
+  padding: 10px;
+  border-radius: 5px;
+
   display: flex;
   justify-content: space-between;
 
+  cursor: pointer;
+
+  &:hover {
+    background: #f8f8f8;
+  }
   .grid-item {
     padding 10px 0;
   }
@@ -78,7 +86,7 @@ const Book = (props) => {
   const thumb =
     "https://truyenaudiocv.org/uploads/manga/nguoi-tai-dau-pha-viet-nhat-ky-nu-chinh-toan-bo-mong/cover/cover_thumb.jpg";
   return (
-    <BookContainer container spacing={2} onClick={() => click(data)}>
+    <BookContainer container spacing={2} onClick={() => {}}>
       <div className="grid-item">
         <div className="img-box">
           <img src={thumb} alt={data.title} />

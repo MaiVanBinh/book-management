@@ -31,6 +31,11 @@ const ListBookContainer = styled("div")`
       font-weight: 500;
     }
   }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const ListBooks = () => {
@@ -53,14 +58,15 @@ const ListBooks = () => {
       {listBook.map((item) => (
         <Book data={item} />
       ))}
-      <Pagination
-        onPageChange={() => {}}
-        totalCount={10}
-        siblingCount={1}
-        currentPage={5}
-        pageSize={3}
-        className="pagination-bar"
-      />
+      <div className="pagination">
+        <Pagination
+          className="pagination-bar"
+          currentPage={currentPage}
+          totalCount={40}
+          pageSize={5}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      </div>
     </ListBookContainer>
   );
 };
