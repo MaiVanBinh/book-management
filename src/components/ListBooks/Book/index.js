@@ -2,17 +2,18 @@ import { styled } from "styled-components";
 import { timeSince } from "../../../page/utils/timeSince";
 
 const BookContainer = styled('div')`
-  // display: flex;
-  // justify-content: space-between;
-  // align-items: center;
   margin-bottom: 20px;
   margin-top: 0 !important;
 
   padding: 10px;
   border-radius: 5px;
 
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
+  display: grid;
+  grid-template-columns: 100px auto 100px 100px;
+  gap: 10px;
+  padding: 10px;
 
   cursor: pointer;
 
