@@ -16,7 +16,6 @@ const BookContainer = styled("div")`
   gap: 10px;
   padding: 10px;
 
-  cursor: pointer;
 
   &:hover {
     background: #f8f8f8;
@@ -99,7 +98,7 @@ const BookContainer = styled("div")`
 `;
 
 const Book = (props) => {
-  const { data, onDelete } = props;
+  const { data, onDelete, onEdit } = props;
   const thumb =
     "https://truyenaudiocv.org/uploads/manga/nguoi-tai-dau-pha-viet-nhat-ky-nu-chinh-toan-bo-mong/cover/cover_thumb.jpg";
   return (
@@ -134,17 +133,17 @@ const Book = (props) => {
         >
           <AiFillDelete />
         </button>
-        {/* <button
+        <button
           className="btn"
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center"
           }}
-          onClick={() => console.log('edit')}
+          onClick={() => onEdit(data)}
         >
           <AiFillEdit />
-        </button> */}
+        </button>
       </div>
     </BookContainer>
   );

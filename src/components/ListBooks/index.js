@@ -8,6 +8,7 @@ import CreateModal from "../modal/CreatModal";
 import { useDispatch, useSelector } from "react-redux";
 import { changePage } from "../../container/Book/actions";
 import DeleteModal from "../modal/DeleteModal";
+import EditModal from "../modal/EditModal";
 
 const ListBookContainer = styled("div")`
   .block-header {
@@ -48,7 +49,9 @@ const ListBookContainer = styled("div")`
 const ListBooks = () => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [currentBook, setCurrentBook] = useState({})
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const [currentBook, setCurrentBook] = useState({});
 
   const { books, pages } = useSelector((state) => state.bookReducer);
   const dispatch = useDispatch();
@@ -58,9 +61,15 @@ const ListBooks = () => {
   };
 
   const deleteBookHandler = (item) => {
-    setCurrentBook(item)
-    setOpenDelete(true)
-  }
+    setCurrentBook(item);
+    setOpenDelete(true);
+  };
+
+  const editBookHandler = (item) => {
+    setCurrentBook(item);
+    setOpenEdit(true);
+  };
+
   return (
     <ListBookContainer>
       <div class="block-header">
@@ -72,11 +81,15 @@ const ListBooks = () => {
         </div>
       </div>
       <div className="list-book">
-      {books.map((item) => (
-        <Book data={item} onDelete={deleteBookHandler} />
-      ))}
+        {books.map((item) => (
+          <Book
+            data={item}
+            onDelete={deleteBookHandler}
+            onEdit={editBookHandler}
+          />
+        ))}
       </div>
-      
+
       <div className="pagination">
         <Pagination
           // className="pagination-bar"
@@ -86,8 +99,27 @@ const ListBooks = () => {
           onPageChange={(page) => changePageHandler(page)}
         />
       </div>
-      {openCreate && <CreateModal isActive={openCreate} setOpen={setOpenCreate} />}
-      <DeleteModal isActive={openDelete} setOpen={value => setOpenDelete(value)} book={currentBook} />
+      {openCreate && (
+        <CreateModal isActive={openCreate} setOpen={setOpenCreate} />
+      )}
+      <DeleteModal
+        isActive={openDelete}
+        setOpen={(value) => {
+          setOpenDelete(value);
+          setCurrentBook(null);
+        }}
+        book={currentBook}
+      />
+      {currentBook && (
+        <EditModal
+          isActive={openEdit}
+          setOpen={(value) => {
+            setOpenEdit(value);
+            setCurrentBook(null);
+          }}
+          book={currentBook}
+        />
+      )}
     </ListBookContainer>
   );
 };
