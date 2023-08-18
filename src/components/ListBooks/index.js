@@ -4,6 +4,9 @@ import Book from "./Book";
 import { styled } from "styled-components";
 import { listBook } from "../../page/utils/data";
 import Pagination from "../Pagination";
+import CreateModal from "../modal/CreatModal";
+import { useDispatch, useSelector } from "react-redux";
+import { changePage } from "../../container/Book/actions";
 
 const ListBookContainer = styled("div")`
   .block-header {
@@ -36,13 +39,18 @@ const ListBookContainer = styled("div")`
     justify-content: center;
     align-items: center;
   }
+  .list-book {
+    min-height: 500px;
+  }
 `;
 
 const ListBooks = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [openCreate, setOpenCreate] = useState(false);
+  const { books, pages } = useSelector((state) => state.bookReducer);
+  const dispatch = useDispatch();
 
-  const changePageHandler = (event, value) => {
-    setCurrentPage(value);
+  const changePageHandler = (value) => {
+    dispatch(changePage(value));
   };
 
   return (
@@ -50,23 +58,27 @@ const ListBooks = () => {
       <div class="block-header">
         <h2 class="title">Mới cập nhật</h2>
         <div>
-          <button variant="text" onClick={() => {}}>
+          <button variant="text" onClick={() => setOpenCreate(true)}>
             Thêm mới
           </button>
         </div>
       </div>
-      {listBook.map((item) => (
+      <div className="list-book">
+      {books.map((item) => (
         <Book data={item} />
       ))}
+      </div>
+      
       <div className="pagination">
         <Pagination
-          className="pagination-bar"
-          currentPage={currentPage}
-          totalCount={40}
+          // className="pagination-bar"
+          currentPage={pages.current}
+          totalCount={pages.total * 5}
           pageSize={5}
-          onPageChange={(page) => setCurrentPage(page)}
+          onPageChange={(page) => changePageHandler(page)}
         />
       </div>
+      {openCreate && <CreateModal isActive={openCreate} setOpen={setOpenCreate} />}
     </ListBookContainer>
   );
 };
