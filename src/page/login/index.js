@@ -105,6 +105,7 @@ const Login = () => {
     const password = data.get("password");
     if (username !== "" && password !== "") {
       Cookies.set('username', username);
+      console.log('login')
       dispatch(
         login({
           username: data.get("username"),

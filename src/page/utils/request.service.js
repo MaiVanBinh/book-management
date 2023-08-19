@@ -2,6 +2,8 @@ import axios from "axios"
 import { API_ROOT } from "./constants"
 import { getToken } from "./cookies";
 import { logout } from "./common";
+import store from './../../container/store';
+import { LOADING } from "../../container/Loading/constants";
 
 const apiService = () => {
 	const configOption = {
@@ -12,6 +14,7 @@ const apiService = () => {
 
 	instance.interceptors.request.use(
 		(config) => {
+			store.dispatch({ type: LOADING.LOADING, payload: true })
 
 			const token = getToken()
 			if (token && config.headers) {
@@ -27,11 +30,14 @@ const apiService = () => {
 	)
 	instance.interceptors.response.use(
 		(res) => {
+			store.dispatch({ type: LOADING.LOADING, payload: false })
 			return res
 		},
 		(err) => {
+			console.log(err)
 			if (err.response.data.error === "verify_token_fail") logout()
 			if (err.response.data.error === "wrong_user") logout()
+			store.dispatch({ type: LOADING.LOADING, payload: false })
 
 			return Promise.reject(err)
 		}

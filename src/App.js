@@ -8,9 +8,12 @@ import { useAppSelector } from "./container/store";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "./container/Auth/actions";
 import Cookies from "js-cookie"
+import Loading from "./components/modal/Loading";
 
 function App() {
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const isLoading = useAppSelector((state) => state.loadingReducer.isLoading);
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -33,6 +36,7 @@ function App() {
           <Route path="/" component={HomePage} exact />
         </Switch>
       </Layout>
+      {isLoading && <Loading />}
     </BrowserRouter>
   );
 }
